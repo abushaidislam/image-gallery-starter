@@ -147,6 +147,11 @@ export async function getStaticProps() {
 
   let i = 0;
   for (let result of results.resources) {
+    // Skip non-image formats (videos, animated GIFs)
+    const videoFormats = ['mp4', 'mov', 'avi', 'webm', 'gif'];
+    if (videoFormats.includes(result.format.toLowerCase())) {
+      continue;
+    }
     reducedResults.push({
       id: i,
       height: result.height,
