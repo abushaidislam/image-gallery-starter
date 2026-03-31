@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
+import { signOut, useSession } from "next-auth/react";
 import Bridge from "../components/Icons/Bridge";
 import Logo from "../components/Icons/Logo";
 import Modal from "../components/Modal";
@@ -16,6 +17,7 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
   const router = useRouter();
   const { photoId } = router.query;
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto();
+  const { data: session } = useSession();
 
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null);
 
@@ -49,6 +51,20 @@ const Home: NextPage = ({ images }: { images: ImageProps[] }) => {
             }}
           />
         )}
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-white text-xl font-bold">Photo Gallery</h1>
+          <div className="flex items-center gap-4">
+            {session?.user?.email && (
+              <span className="text-white/60 text-sm">{session.user.email}</span>
+            )}
+            <button
+              onClick={() => signOut({ callbackUrl: "/login" })}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-lg transition"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
         <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
           <div className="after:content relative mb-5 flex h-[629px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-16 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0">
             <div className="absolute inset-0 flex items-center justify-center opacity-20">
