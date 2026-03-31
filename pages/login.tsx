@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { motion, easeOut } from "framer-motion";
+import { motion } from "framer-motion";
 import { MoveRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 
